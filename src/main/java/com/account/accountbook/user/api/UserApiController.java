@@ -78,6 +78,7 @@ public class UserApiController {
     // 로그인 여부
     @PostMapping("/api/user/auth")
     public UserAuthDto userAuth(@RequestBody UserAuthReqDto req){
+        System.out.println("req = " + req.getToken());
         return userService.memberAuth(req.getToken());
     }
 

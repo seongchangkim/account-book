@@ -82,6 +82,7 @@ public class UserService {
         try{
             Member memberByToken = repository.getUserByToken(token).orElseThrow(NotFoundMemberInfoException::new);
 
+            System.out.println("memberByToken = " + memberByToken.getId());
             UserAuthDto res = new UserAuthDto(
                     memberByToken.getId(),
                     memberByToken.getProfileUrl(),

@@ -39,3 +39,4 @@ out/
 ## hidden environment
 src/main/resources/accountbookapp.json
 src/main/resources/application-prod.yaml
+src/main/resources/application-local.yaml
