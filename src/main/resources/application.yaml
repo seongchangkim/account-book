@@ -1,14 +1,14 @@
 spring:
   profiles:
-#    active: prod
-    active: local
+    active: prod
+#    active: local
   data:
     web:
       pageable:
         default-page-size: 10
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true

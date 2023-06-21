@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import static com.account.accountbook.domain.QMember.*;
@@ -65,7 +66,7 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom{
     }
 
     // DB 전화번호 포멧 지정
-    private StringExpression dateFormat(DateTimePath<LocalDateTime> date) {
+    private StringExpression dateFormat(DateTimePath<Date> date) {
         return date.year().stringValue()
                 .concat("-")
                 .concat(date.month().stringValue())

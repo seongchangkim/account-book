@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -141,8 +142,7 @@ public class UserService {
     public MemberProfileUpdateResDto updateProfileInfo(MemberProfileFormDto form, Long id){
         Member findMember = repository.findById(id).orElse(null);
 
-        System.out.println("findMember = " + findMember.getProfileUrl());
-        findMember.updateProfileInfo(form.getName(), form.getTel(), form.getProfileUrl(), LocalDateTime.now());
+        findMember.updateProfileInfo(form.getName(), form.getTel(), form.getProfileUrl(), new Date());
 
         MemberProfileUpdateResDto res = new MemberProfileUpdateResDto(form.getProfileUrl(), form.getName(), form.getTel(), true);
 

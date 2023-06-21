@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -63,7 +64,7 @@ public class Member {
     }
 
     // 회원 수정 로직
-    public void updateUserInfo(String name, String tel, UserRole role, String profileUrl, LocalDateTime updatedAt){
+    public void updateUserInfo(String name, String tel, UserRole role, String profileUrl, Date updatedAt){
         this.name = name;
         this.tel = tel;
         this.role = role;
@@ -72,7 +73,7 @@ public class Member {
     }
 
     // 프로필 정보 수정 로직
-    public void updateProfileInfo(String name, String tel, String profileUrl, LocalDateTime updatedAt){
+    public void updateProfileInfo(String name, String tel, String profileUrl, Date updatedAt){
         this.name = name;
         this.tel = tel;
         this.profileUrl = profileUrl;

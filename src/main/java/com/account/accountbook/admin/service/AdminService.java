@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class AdminService {
     public MemberEditResDto updateMemberInfo(MemberInfoFormDto form, Long id){
         Member findMember = repository.findById(id).orElseThrow(NotFoundMemberInfoException::new);
 
-        findMember.updateUserInfo(form.getName(), form.getTel(), form.getRole(), form.getProfileUrl(), LocalDateTime.now());
+        findMember.updateUserInfo(form.getName(), form.getTel(), form.getRole(), form.getProfileUrl(), new Date());
 
         MemberEditResDto res = new MemberEditResDto(form.getProfileUrl(), form.getName(), form.getEmail(), form.getTel(), form.getRole(), true);
         return res;

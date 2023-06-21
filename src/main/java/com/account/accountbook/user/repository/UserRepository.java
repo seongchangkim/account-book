@@ -14,10 +14,10 @@ public interface UserRepository extends CrudRepository<Member, Long>, UserReposi
     Optional<Member> getUserByToken(@Param(value = "token") String token);
 
     @Query(
-            value = "select m.member_id from Member m" +
-            " where m.email = :email" +
-            " and m.name = :name" +
-            " and m.social_login_type = :type"
+            value = "select member_id from member" +
+            " where email = :email" +
+            " and name = :name" +
+            " and social_login_type = :type"
             ,nativeQuery = true
     )
     Optional<Long> isExistSocialUser(

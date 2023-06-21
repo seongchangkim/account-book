@@ -9,22 +9,28 @@ import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Embeddable
 @DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommonTime {
 
-    @ColumnDefault("now()")
+    @ColumnDefault("CURRENT_TIMESTAMP")
     @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
+    @Column(updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 
     @LastModifiedBy
-    private LocalDateTime updatedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(columnDefinition="TIMESTAMP")
+    private Date updatedAt;
 
-    public void setUpdatedAt(LocalDateTime updatedAt){
+    public void setUpdatedAt(Date updatedAt){
         this.updatedAt = updatedAt;
     }
 }
