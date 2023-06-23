@@ -6,6 +6,7 @@ import com.account.accountbook.domain.SocialLoginType;
 import com.account.accountbook.user.api.form.MemberProfileFormDto;
 import com.account.accountbook.user.exception.NotFoundMemberInfoException;
 import com.account.accountbook.user.repository.UserRepository;
+import com.account.accountbook.user.repository.dto.IsExistSocialLoginQueryRes;
 import com.account.accountbook.user.repository.dto.MemberProfileResDto;
 import com.account.accountbook.user.repository.dto.MemberProfileUpdateResDto;
 import com.account.accountbook.user.service.dto.IsExistSocialMemberResDto;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -78,8 +78,6 @@ public class UserService {
     // 회원 로그인 여부
     @Transactional(readOnly = true)
     public UserAuthDto memberAuth(String token){
-        System.out.println("token = " + token);
-
         try{
             Member memberByToken = repository.getUserByToken(token).orElseThrow(NotFoundMemberInfoException::new);
 
@@ -110,9 +108,11 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public IsExistSocialMemberResDto isExistSocialMember(String email, String name, String type){
-        Long existMemberId = repository.isExistSocialUser(email, name, type).orElse(null);
-        boolean isExist = existMemberId != null ? true : false;
-        IsExistSocialMemberResDto res = new IsExistSocialMemberResDto(existMemberId, isExist);
+        IsExistSocialLoginQueryRes existMember = repository.isExistSocialUser(email, name, type).orElse(null);
+        boolean isExist = existMember != null ? true : false;
+        System.out.println("existMember = " + existMember.getToken());
+        System.out.println("existMember = " + existMember.getId());
+        IsExistSocialMemberResDto res = new IsExistSocialMemberResDto(existMember.getId(), existMember.getToken(), isExist);
 
         return res;
     }
