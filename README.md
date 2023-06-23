@@ -34,7 +34,7 @@
 |:---|:---:|:---:|:---:|
 |/api/user|GET|회원 목록(페이징 처리 및 검색)| ○name(String)<br/> ○email(String)<br/> ○role(String)<br/> ○socialType(string)<br/> ○page(number)<br/> ○size(number) 
 |/api/user/{id}|GET|프로필 상세보기|-
-|/api/user/{id}|PATCH|○profileUrl(String)<br/> ○email(String)<br/> ○name(String)<br/> ○tel(String)<br/> ○role(String)<br/>
+|/api/user/{id}|PATCH|프로필 수정|○profileUrl(String)<br/> ○email(String)<br/> ○name(String)<br/> ○tel(String)<br/> ○role(String)<br/>
 <br/>
 
 
