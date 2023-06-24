@@ -43,7 +43,9 @@ public class UserService {
 
     // 로그인
     public LoginResDto login(String email, String password){
-        Member loginMember = repository.getUserByEmail(email).orElseThrow(() -> new NotFoundMemberInfoException("입력한 아이디가 존재하지 않습니다"));
+        Member loginMember = repository.getUserByEmail(email).orElse(null);
+
+        isExistFindMember(loginMember);
 
         if(!encoder.matches(password, loginMember.getPassword())){
             throw new NotFoundMemberInfoException("비밀번호가 일치하지 않습니다");
@@ -57,7 +59,9 @@ public class UserService {
 
     // 로그아웃
     public String logout(Long userId){
-        Member loginedMember = findMemberById(userId, "해당 회원이 존재하지 않습니다");
+        Member loginedMember = findMemberById(userId);
+
+        isExistFindMember(loginedMember);
 
         loginedMember.updateToken(null);
         LoginResDto res = updateLoginDto(userId, null, null);
@@ -67,9 +71,11 @@ public class UserService {
 
     // 소셜 로그인
     public void socialLogin(String oauthToken, Long id, SocialLoginType type){
-        Member member = findMemberById(id, "해당 회원이 존재하지 않습니다");
+        Member findMember = findMemberById(id);
 
-        member.updateTokenAndSocialLoginType(oauthToken, type);
+        isExistFindMember(findMember);
+
+        findMember.updateTokenAndSocialLoginType(oauthToken, type);
     }
 
     // 회원 로그인 여부
@@ -102,7 +108,9 @@ public class UserService {
 
     public Boolean deleteMember(Long id){
         try{
-            Member findMember = findMemberById(id,"해당 회원이 존재하지 않습니다");
+            Member findMember = findMemberById(id);
+
+            isExistFindMember(findMember);
 
             // 로그인 되어 있으면
             if(findMember.getToken() != null){
@@ -123,7 +131,9 @@ public class UserService {
     }
 
     public MemberProfileUpdateResDto updateProfileInfo(MemberProfileFormDto form, Long id){
-        Member findMember = findMemberById(id, "해당 회원이 존재하지 않습니다");
+        Member findMember = findMemberById(id);
+
+        isExistFindMember(findMember);
 
         findMember.updateProfileInfo(form.getName(), form.getTel(), form.getProfileUrl(), new Date());
 
@@ -131,8 +141,8 @@ public class UserService {
     }
 
     // userId에 따른 회원 조회(공통 메소드)
-    private Member findMemberById(Long id, String errorMessage) {
-        return repository.findById(id).orElseThrow(() -> new NotFoundMemberInfoException(errorMessage));
+    private Member findMemberById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
     // 로그인 response 값 수정
@@ -140,5 +150,12 @@ public class UserService {
         LoginResDto res = new LoginResDto();
         res.setLoginRes(userId, token, role);
         return res;
+    }
+
+    // 조회된 회원이 존재하는지 확인
+    private static void isExistFindMember(Member loginMember) {
+        if(loginMember == null){
+            throw new NotFoundMemberInfoException("해당 회원이 존재하지 않습니다");
+        }
     }
 }

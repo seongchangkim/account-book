@@ -31,10 +31,11 @@ public class UserApiController {
 
     private final UserService userService;
     private final PasswordEncoder encoder;
+    private final CommonControllerFunc commonControllerFunc;
 
     // 로그인
     @PostMapping("/api/user/login")
-    public ResponseEntity<LoginResDto> login(@RequestBody LoginForm form){
+    public ResponseEntity<Object> login(@RequestBody LoginForm form){
 
         try{
             LoginResDto res = userService.login(form.getEmail(), form.getPassword());
@@ -42,9 +43,9 @@ public class UserApiController {
             return ResponseEntity.ok().body(res);
         }catch(Exception e){
             LoginResDto res = new LoginResDto();
-            res.setErrorMessage("아이디 또는 비밀번호가 일치하지 않습니다");
+            res.setErrorMessage(e.getMessage());
 
-            return ResponseEntity.ok().header("Content-Type", "application/json;charset=UTF-8").body(res);
+            return commonControllerFunc.getResponseDTO(res);
         }
     }
 
@@ -60,7 +61,7 @@ public class UserApiController {
         result.put("message", "회원가입 성공하셨습니다");
         result.put("userId", userId.toString());
 
-        return new CommonControllerFunc().getResponseMap(result);
+        return commonControllerFunc.getResponseMap(result);
     }
 
     // 로그아웃
@@ -71,7 +72,7 @@ public class UserApiController {
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
 
-        return new CommonControllerFunc().getResponseMap(result);
+        return commonControllerFunc.getResponseMap(result);
     }
 
     // 로그인 여부
@@ -88,10 +89,10 @@ public class UserApiController {
 
     // 소셜 로그인 존재여부(해당 계정)
     @PostMapping("/api/user/social-login/exist")
-    public ResponseEntity<IsExistSocialMemberResDto> socialCheckUser(@RequestBody IsExistSocialMemberDto req){
+    public ResponseEntity<Object> socialCheckUser(@RequestBody IsExistSocialMemberDto req){
         IsExistSocialMemberResDto result = userService.isExistSocialMember(req.getEmail(), req.getName(), req.getSocialType());
 
-        return ResponseEntity.ok().header("Content-Type", "application/json;charset=UTF-8").body(result);
+        return commonControllerFunc.getResponseDTO(result);
     }
 
     // 프로필 상세보기
@@ -115,6 +116,6 @@ public class UserApiController {
         Map<String, Object> result = new HashMap<>();
         result.put("isSuccess", isSuccess);
 
-        return new CommonControllerFunc().getResponseMap(result);
+        return commonControllerFunc.getResponseMap(result);
     }
 }
