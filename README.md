@@ -32,9 +32,24 @@
 ### 2. Admin API
 |Url|Http Method|기능|Parameter
 |:---|:---:|:---:|:---:|
-|/api/user|GET|회원 목록(페이징 처리 및 검색)| ○name(String)<br/> ○email(String)<br/> ○role(String)<br/> ○socialType(string)<br/> ○page(number)<br/> ○size(number) 
+|/api/user|GET|회원 목록(페이징 처리 및 검색)| ○name(String)<br/> ○email(String)<br/> ○role(String)<br/> ○socialType(String)<br/> ○page(number)<br/> ○size(number) 
 |/api/user/{id}|GET|프로필 상세보기|-
 |/api/user/{id}|PATCH|프로필 수정|○profileUrl(String)<br/> ○email(String)<br/> ○name(String)<br/> ○tel(String)<br/> ○role(String)<br/>
 <br/>
+
+### 3. Expense API
+|Url|Http Method|기능|Parameter
+|:---|:---:|:---:|:---:|
+|/api/expense|POST|가계부 생성| ○userId(number)<br/> ○content(String)<br/> ○expense(String)<br/> ○date(String)<br/> ○status(String)<br/> ○category(String) 
+|/api/expense/list|POST|날짜에 따른 가계부 목록| ○userId(String)<br/> ○date(String)<br/> ○lastExpenseId(String)
+|/api/expense/{id}|GET|가계부 상세보기|-
+|/api/expense/{id}|PATCH|가계부 수정|○userId(number)<br/> ○content(String)<br/> ○expense(String)<br/> ○date(String)<br/> ○status(String)<br/> ○category(String) 
+|/api/expense/{id}|DELETE|가계부 삭제|-
+
+※ 속성이 email이고 데이터 타입이 String이면 email(String)으로 작성했습니다.
+
+## 테이블 구조
+<img width="933" alt="스크린샷 2023-06-24 오전 10 32 32" src="https://github.com/seongchangkim/account-book/assets/74657556/76410959-54eb-42c8-9eec-a7f7473525a9">
+
 
 
