@@ -50,7 +50,9 @@
 ※ 속성이 email이고 데이터 타입이 String이면 email(String)으로 작성했습니다.
 
 ## 테이블 구조
-<img width="933" alt="스크린샷 2023-06-24 오전 10 32 32" src="https://github.com/seongchangkim/account-book/assets/74657556/76410959-54eb-42c8-9eec-a7f7473525a9">
+
+<img width="920" alt="image" src="https://github.com/seongchangkim/account-book/assets/74657556/799e6723-5fce-4194-9372-4c356592b66d">
+
 
 
 
