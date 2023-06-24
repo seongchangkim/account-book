@@ -76,16 +76,20 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserAuthDto memberAuth(String token){
 
-            Member memberByToken = repository.getUserByToken(token).orElse(null);
+            Member findMemberByToken = repository.getUserByToken(token).orElse(null);
 
-            return new UserAuthDto(
-                    memberByToken.getId(),
-                    memberByToken.getProfileUrl(),
-                    memberByToken.getName(),
-                    memberByToken.getTel(),
-                    memberByToken.getToken(),
-                    memberByToken.getRole(),
-                    true);
+            if(findMemberByToken == null){
+                return new UserAuthDto(null, null, null, null, null, null, false);
+            }else{
+                return new UserAuthDto(
+                        findMemberByToken.getId(),
+                        findMemberByToken.getProfileUrl(),
+                        findMemberByToken.getName(),
+                        findMemberByToken.getTel(),
+                        findMemberByToken.getToken(),
+                        findMemberByToken.getRole(),
+                        true);
+            }
     }
 
     @Transactional(readOnly = true)
