@@ -9,7 +9,8 @@
 ### 개발 환경
 > 1. Java 11<br/>
 > 2. Spring Boot 2.7.11<br/>
-> 3. AWS EC2(ubuntu)
+> 3. AWS EC2(ubuntu)<br/>
+> 4. MySQL 8.0.33
 
 ### IDE
 > 1. Intellij<br/>
