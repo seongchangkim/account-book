@@ -1,5 +1,6 @@
 package com.account.accountbook.user.api;
 
+import com.account.accountbook.common.CommonControllerFunc;
 import com.account.accountbook.user.api.form.MemberProfileFormDto;
 import com.account.accountbook.user.api.req.IsExistSocialMemberDto;
 import com.account.accountbook.user.api.req.KakaoLoginReqDto;
@@ -12,9 +13,9 @@ import com.account.accountbook.domain.SocialLoginType;
 import com.account.accountbook.user.repository.dto.MemberProfileResDto;
 import com.account.accountbook.user.repository.dto.MemberProfileUpdateResDto;
 import com.account.accountbook.user.service.UserService;
-import com.account.accountbook.user.service.dto.IsExistSocialMemberResDto;
-import com.account.accountbook.user.service.dto.LoginResDto;
-import com.account.accountbook.user.service.dto.UserAuthDto;
+import com.account.accountbook.user.repository.dto.IsExistSocialMemberResDto;
+import com.account.accountbook.user.repository.dto.LoginResDto;
+import com.account.accountbook.user.repository.dto.UserAuthDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,36 +50,33 @@ public class UserApiController {
 
     // 회원가입
     @PostMapping("/api/user")
-    public ResponseEntity<Map<String, String>> register(@RequestBody RegisterForm form){
-//        Member member = new Member(form.getEmail(), encoder.encode(form.getPassword()), form.getTel(), form.getName());
-
+    public ResponseEntity<Map<String, Object>> register(@RequestBody RegisterForm form){
         Member member = new Member();
         member.registerMember(form.getEmail(), encoder.encode(form.getPassword()), form.getTel(), form.getName());
 
         Long userId = userService.register(member);
 
-        Map<String, String> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("message", "회원가입 성공하셨습니다");
         result.put("userId", userId.toString());
 
-        return ResponseEntity.ok().header("Content-Type", "application/json;charset=UTF-8").body(result);
+        return new CommonControllerFunc().getResponseMap(result);
     }
 
     // 로그아웃
     @PostMapping("/api/user/logout")
-    public ResponseEntity<Map<String, String>> logout(@RequestBody LogoutReqDto req){
+    public ResponseEntity<Map<String, Object>> logout(@RequestBody LogoutReqDto req){
         String token = userService.logout(Long.parseLong(req.getUserId()));
 
-        Map<String, String> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("token", token);
 
-        return ResponseEntity.ok().header("Content-Type", "application/json;charset=UTF-8").body(result);
+        return new CommonControllerFunc().getResponseMap(result);
     }
 
     // 로그인 여부
     @PostMapping("/api/user/auth")
     public UserAuthDto userAuth(@RequestBody UserAuthReqDto req){
-        System.out.println("req = " + req.getToken());
         return userService.memberAuth(req.getToken());
     }
 
@@ -109,14 +107,14 @@ public class UserApiController {
         return userService.updateProfileInfo(form, id);
     }
 
-    // 회원 탈퇴 및 삭제
+    // 회원 탈퇴 또는 삭제
     @DeleteMapping("/api/user/{id}")
-    public ResponseEntity<Map<String, Boolean>> leaveUser(@PathVariable("id") Long id) {
+    public ResponseEntity<Map<String, Object>> leaveUser(@PathVariable("id") Long id) {
         Boolean isSuccess = userService.deleteMember(id);
 
-        Map<String, Boolean> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("isSuccess", isSuccess);
 
-        return ResponseEntity.ok().header("Content-Type", "application/json;charset=UTF-8").body(result);
+        return new CommonControllerFunc().getResponseMap(result);
     }
 }

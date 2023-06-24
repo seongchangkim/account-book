@@ -13,17 +13,4 @@ public interface UserRepository extends CrudRepository<Member, Long>, UserReposi
     Optional<Member> getUserByEmail(@Param(value = "email") String email);
 
     Optional<Member> getUserByToken(@Param(value = "token") String token);
-
-//    @Query(
-//            value = "select new com.account.accountbook.user.repository.dto.IsExistSocialLoginQueryRes(m.id, m.token) from Member m" +
-//            " where m.email = :email" +
-//            " and m.name = :name" +
-//            " and m.social_login_type = :type"
-//            ,nativeQuery = true
-//    )
-//    Optional<IsExistSocialLoginQueryRes> isExistSocialUser(
-//            @Param(value = "email") String email,
-//            @Param(value = "name") String name,
-//            @Param(value = "type") String type
-//    );
 }

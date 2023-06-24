@@ -1,4 +1,4 @@
-package com.account.accountbook.user.service.dto;
+package com.account.accountbook.user.repository.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -25,9 +25,6 @@ public class AdminService {
 
     private final AdminRepository repository;
 
-    @Value("${app.firebase-bucket}")
-    private String firebaseBucket;
-
     public Page<MemberListResDto> searchMemberList(MemberSearchConditionDto req, Pageable pageable){
         return repository.searchMemberList(req, pageable);
     }
@@ -42,7 +39,6 @@ public class AdminService {
 
         findMember.updateUserInfo(form.getName(), form.getTel(), form.getRole(), form.getProfileUrl(), new Date());
 
-        MemberEditResDto res = new MemberEditResDto(form.getProfileUrl(), form.getName(), form.getEmail(), form.getTel(), form.getRole(), true);
-        return res;
+        return new MemberEditResDto(form.getProfileUrl(), form.getName(), form.getEmail(), form.getTel(), form.getRole(), true);
     }
 }

@@ -42,7 +42,7 @@ public class Expense {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    // 비용 또는 수입 항목 추가 및 수정 로직
+    // 가계부 추가 및 수정 로직(가계부 추가)
     public void expenseForm(String content, int expensePrice, Date date, ExpenseStatus status, ExpenseCategory category) {
         this.content = content;
         this.expensePrice = expensePrice;
@@ -51,7 +51,7 @@ public class Expense {
         this.category = category;
     }
 
-    // 비용 또는 수입 항목 추가 로직 2
+    // 가계부 추가 로직(회원 추가[외래키])
     public void setMember(Member member){
         this.member = member;
     }

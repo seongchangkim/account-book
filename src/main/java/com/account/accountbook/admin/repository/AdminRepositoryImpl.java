@@ -93,18 +93,22 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom{
         ).from(member).where(member.id.eq(id)).fetchOne();
     }
 
+    // 이름 카테고리
     private BooleanExpression nameContains(String name) {
         return hasText(name) ? member.name.contains(name) : null;
     }
 
+    // 이메일 카테고리
     private BooleanExpression emailContains(String email) {
         return hasText(email) ? member.email.contains(email) : null;
     }
 
+    // 회원 권한 카테고리
     private BooleanExpression roleEq(UserRole role) {
         return role != null ? member.role.eq(role) : null;
     }
 
+    // 소셜 로그인 유형 카테고리
     private BooleanExpression socialTypeEq(SocialLoginType socialType) {
         return socialType != null ? member.socialLoginType.eq(socialType) : null;
     }

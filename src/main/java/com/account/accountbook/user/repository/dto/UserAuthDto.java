@@ -1,4 +1,4 @@
-package com.account.accountbook.user.service.dto;
+package com.account.accountbook.user.repository.dto;
 
 import com.account.accountbook.domain.UserRole;
 import lombok.Getter;
@@ -13,7 +13,7 @@ public class UserAuthDto {
     private UserRole role;
     private boolean isAuth;
 
-    public UserAuthDto(Long id, String profileUrl, String name, String tel, String token, UserRole role, boolean isAuth) {
+    public UserAuthDto(Long id, String profileUrl, String name, String tel, String token, UserRole role, Boolean isAuth) {
         this.id = id;
         this.profileUrl = profileUrl;
         this.name = name;

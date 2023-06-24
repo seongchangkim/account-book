@@ -1,4 +1,4 @@
-package com.account.accountbook.user.service.dto;
+package com.account.accountbook.user.repository.dto;
 
 import com.account.accountbook.domain.UserRole;
 import lombok.Getter;

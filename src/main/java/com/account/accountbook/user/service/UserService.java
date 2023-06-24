@@ -3,15 +3,16 @@ package com.account.accountbook.user.service;
 import com.account.accountbook.config.JwtTokenProvider;
 import com.account.accountbook.domain.Member;
 import com.account.accountbook.domain.SocialLoginType;
+import com.account.accountbook.domain.UserRole;
 import com.account.accountbook.user.api.form.MemberProfileFormDto;
 import com.account.accountbook.user.exception.NotFoundMemberInfoException;
 import com.account.accountbook.user.repository.UserRepository;
 import com.account.accountbook.user.repository.dto.IsExistSocialLoginQueryRes;
 import com.account.accountbook.user.repository.dto.MemberProfileResDto;
 import com.account.accountbook.user.repository.dto.MemberProfileUpdateResDto;
-import com.account.accountbook.user.service.dto.IsExistSocialMemberResDto;
-import com.account.accountbook.user.service.dto.LoginResDto;
-import com.account.accountbook.user.service.dto.UserAuthDto;
+import com.account.accountbook.user.repository.dto.IsExistSocialMemberResDto;
+import com.account.accountbook.user.repository.dto.LoginResDto;
+import com.account.accountbook.user.repository.dto.UserAuthDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,32 +46,28 @@ public class UserService {
         Member loginMember = repository.getUserByEmail(email).orElseThrow(() -> new NotFoundMemberInfoException("입력한 아이디가 존재하지 않습니다"));
 
         if(!encoder.matches(password, loginMember.getPassword())){
-            throw new NotFoundMemberInfoException("아이디 또는 비밀번호가 일치하지 않습니다");
+            throw new NotFoundMemberInfoException("비밀번호가 일치하지 않습니다");
         }
 
         String token = provider.registerToken(loginMember.getId());
         loginMember.updateToken(token);
 
-        LoginResDto res = new LoginResDto();
-        res.setLoginRes(loginMember.getId(), token, loginMember.getRole());
-
-        return res;
+        return updateLoginDto(loginMember.getId(), token, loginMember.getRole());
     }
 
     // 로그아웃
     public String logout(Long userId){
-        Member loginedMember = repository.findById(userId).orElseThrow(NotFoundMemberInfoException::new);
+        Member loginedMember = findMemberById(userId, "해당 회원이 존재하지 않습니다");
 
-        LoginResDto res = new LoginResDto();
         loginedMember.updateToken(null);
-        res.setLoginRes(userId, null, null);
+        LoginResDto res = updateLoginDto(userId, null, null);
 
         return res.getToken();
     }
 
     // 소셜 로그인
     public void socialLogin(String oauthToken, Long id, SocialLoginType type){
-        Member member = repository.findById(id).orElseThrow(NotFoundMemberInfoException::new);
+        Member member = findMemberById(id, "해당 회원이 존재하지 않습니다");
 
         member.updateTokenAndSocialLoginType(oauthToken, type);
     }
@@ -78,11 +75,10 @@ public class UserService {
     // 회원 로그인 여부
     @Transactional(readOnly = true)
     public UserAuthDto memberAuth(String token){
-        try{
-            Member memberByToken = repository.getUserByToken(token).orElseThrow(NotFoundMemberInfoException::new);
 
-            System.out.println("memberByToken = " + memberByToken.getId());
-            UserAuthDto res = new UserAuthDto(
+            Member memberByToken = repository.getUserByToken(token).orElse(null);
+
+            return new UserAuthDto(
                     memberByToken.getId(),
                     memberByToken.getProfileUrl(),
                     memberByToken.getName(),
@@ -90,36 +86,19 @@ public class UserService {
                     memberByToken.getToken(),
                     memberByToken.getRole(),
                     true);
-
-            return res;
-        }catch(Exception e){
-            UserAuthDto res = new UserAuthDto(
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    false);
-
-            return res;
-        }
     }
 
     @Transactional(readOnly = true)
     public IsExistSocialMemberResDto isExistSocialMember(String email, String name, String type){
         IsExistSocialLoginQueryRes existMember = repository.isExistSocialUser(email, name, type).orElse(null);
         boolean isExist = existMember != null ? true : false;
-        System.out.println("existMember = " + existMember.getToken());
-        System.out.println("existMember = " + existMember.getId());
-        IsExistSocialMemberResDto res = new IsExistSocialMemberResDto(existMember.getId(), existMember.getToken(), isExist);
 
-        return res;
+        return new IsExistSocialMemberResDto(existMember.getId(), existMember.getToken(), isExist);
     }
 
     public Boolean deleteMember(Long id){
         try{
-            Member findMember = repository.findById(id).orElse(null);
+            Member findMember = findMemberById(id,"해당 회원이 존재하지 않습니다");
 
             // 로그인 되어 있으면
             if(findMember.getToken() != null){
@@ -140,12 +119,22 @@ public class UserService {
     }
 
     public MemberProfileUpdateResDto updateProfileInfo(MemberProfileFormDto form, Long id){
-        Member findMember = repository.findById(id).orElse(null);
+        Member findMember = findMemberById(id, "해당 회원이 존재하지 않습니다");
 
         findMember.updateProfileInfo(form.getName(), form.getTel(), form.getProfileUrl(), new Date());
 
-        MemberProfileUpdateResDto res = new MemberProfileUpdateResDto(form.getProfileUrl(), form.getName(), form.getTel(), true);
+        return new MemberProfileUpdateResDto(form.getProfileUrl(), form.getName(), form.getTel(), true);
+    }
 
+    // userId에 따른 회원 조회(공통 메소드)
+    private Member findMemberById(Long id, String errorMessage) {
+        return repository.findById(id).orElseThrow(() -> new NotFoundMemberInfoException(errorMessage));
+    }
+
+    // 로그인 response 값 수정
+    private static LoginResDto updateLoginDto(Long userId, String token, UserRole role) {
+        LoginResDto res = new LoginResDto();
+        res.setLoginRes(userId, token, role);
         return res;
     }
 }

@@ -64,7 +64,8 @@ public class ExpenseService {
 
         return true;
     }
-    // String -> Date 타입으로 변환하면서 날짜 형식으로 변환하는 기능
+
+    // String -> Date 타입으로 변환하면서 날짜 형식으로 변환하는 기능(공통 메소드)
     private static Date parseFormatDate(String date) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.parse(date);

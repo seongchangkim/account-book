@@ -1,5 +1,6 @@
 package com.account.accountbook.expense.api;
 
+import com.account.accountbook.common.CommonControllerFunc;
 import com.account.accountbook.expense.api.dto.ExpenseListReqDto;
 import com.account.accountbook.expense.api.form.ExpenseForm;
 import com.account.accountbook.expense.repository.dto.ExpenseDetailResDto;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class ExpenseApiController {
     private final ExpenseService service;
 
-    // 지출 또는 수입 항목 생성
+    // 가계부 생성
     @PostMapping("/api/expense")
     public ResponseEntity<Map<String, Boolean>> addExpense(@RequestBody ExpenseForm form) throws ParseException {
         Long addedExpenseId = service.addExpense(form);
@@ -35,29 +36,31 @@ public class ExpenseApiController {
                 .header("Content-type", "application/json;charset=UTF-8").body(result);
     }
 
-    // 날짜별 지출 또는 수입 항목 목록 불러오기
+    // 날짜에 따른 가계부 목록 불러오기
     @PostMapping(value = "/api/expense/list", produces = "application/json;charset=UTF-8")
     public Slice<ExpenseListResDto> getExpenseListByDate(@RequestBody ExpenseListReqDto req, Pageable pageable) throws ParseException {
         return service.getExpenseListByDate(req.getLastExpenseId(), req.getDate(), req.getUserId(), pageable);
     }
 
+    // 가계부 상세보기
     @GetMapping(value = "/api/expense/{id}", produces = "application/json;charset=UTF-8")
     public ExpenseDetailResDto getExpenseById(@PathVariable("id") Long id){
         return service.getExpenseById(id);
     }
 
+    // 가계부 수정
     @PatchMapping(value = "/api/expense/{id}", produces = "application/json;charset=UTF-8")
     public ExpenseEditResDto editExpense(@PathVariable("id") Long id, @RequestBody ExpenseForm form) throws ParseException {
         return service.editExpense(id, form);
     }
 
+    // 가계부 삭제
     @DeleteMapping(value = "/api/expense/{id}")
-    public ResponseEntity<Map<String, Boolean>> editExpense(@PathVariable("id") Long id) throws ParseException {
+    public ResponseEntity<Map<String, Object>> editExpense(@PathVariable("id") Long id) throws ParseException {
         Boolean success = service.deleteExpense(id);
-        Map<String, Boolean> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("success", success);
 
-        return ResponseEntity.ok()
-                .header("Content-type", "application/json;charset=UTF-8").body(result);
+        return new CommonControllerFunc().getResponseMap(result);
     }
 }

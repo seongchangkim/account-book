@@ -74,7 +74,7 @@ public class ExpenseRepositoryImpl implements ExpenseRepositoryCustom{
         }
     }
 
-    //
+    // 마지막 페이지 체크 여부
     private Slice<ExpenseListResDto> checkLastPage(Pageable pageable, List<ExpenseListResDto> result){
         boolean hasNext = false;
 
