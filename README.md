@@ -21,7 +21,7 @@
 |:---|:---:|:---:|:---:|
 |/api/user|POST|회원가입|○email(String)<br/> ○password(String)<br/> ○name(String)<br/> ○tel(String)
 |/api/user/login|POST|로그인|○email(String)<br/> ○password(String)
-|/api/user/auth|GET|로그인 여부|○token(String)
+|/api/user/auth|POST|로그인 여부|○token(String)
 |/api/user/logout|POST|로그아웃|○userId(String)
 |/api/user/social-login/kakao|POST|카카오 로그인|○id(String)<br/> ○oauthToken(String)
 |/api/user/social-login/exist|POST|소셜 로그인 계정 존재여부|○email(String)<br/> ○name(String)<br/> ○socialType(String)
