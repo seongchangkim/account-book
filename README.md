@@ -50,9 +50,18 @@
 ※ 속성이 email이고 데이터 타입이 String이면 email(String)으로 작성했습니다.
 
 ## 테이블 구조
-
 <img width="920" alt="image" src="https://github.com/seongchangkim/account-book/assets/74657556/799e6723-5fce-4194-9372-4c356592b66d">
 
+## 가계부 회원 관리 웹 페이지
+가계부 회원 관리 웹 페이지 설명을 보려면 아래 링크를 클릭하면 됩니다.
+<br/><br/>
+<a href="https://github.com/seongchangkim/account_book_admin_web">가계부 회원 관리 웹 페이지</a>
+<br/>
+
+## 가계부 앱
+가계부 앱 설명을 보려면 아래 링크를 클릭하면 됩니다.
+<br/><br/>
+<a href="https://github.com/seongchangkim/account_book_app">가계부 앱</a>
 
 
 
