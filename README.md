@@ -21,7 +21,7 @@
 |:---|:---:|:---:|:---:|
 |/api/user|POST|회원가입|○email(String)<br/> ○password(String)<br/> ○name(String)<br/> ○tel(String)
 |/api/user/login|POST|로그인|○email(String)<br/> ○password(String)
-|/api/user/auth|GET|로그인 여부|○token(String)
+|/api/user/auth|POST|로그인 여부|○token(String)
 |/api/user/logout|POST|로그아웃|○userId(String)
 |/api/user/social-login/kakao|POST|카카오 로그인|○id(String)<br/> ○oauthToken(String)
 |/api/user/social-login/exist|POST|소셜 로그인 계정 존재여부|○email(String)<br/> ○name(String)<br/> ○socialType(String)
@@ -50,9 +50,18 @@
 ※ 속성이 email이고 데이터 타입이 String이면 email(String)으로 작성했습니다.
 
 ## 테이블 구조
-
 <img width="920" alt="image" src="https://github.com/seongchangkim/account-book/assets/74657556/799e6723-5fce-4194-9372-4c356592b66d">
 
+## 가계부 회원 관리 웹 페이지
+가계부 회원 관리 웹 페이지 설명을 보려면 아래 링크를 클릭하면 됩니다.
+<br/><br/>
+<a href="https://github.com/seongchangkim/account_book_admin_web">가계부 회원 관리 웹 페이지</a>
+<br/>
+
+## 가계부 앱
+가계부 앱 설명을 보려면 아래 링크를 클릭하면 됩니다.
+<br/><br/>
+<a href="https://github.com/seongchangkim/account_book_app">가계부 앱</a>
 
 
 
