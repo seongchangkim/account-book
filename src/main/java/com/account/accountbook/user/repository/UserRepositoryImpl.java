@@ -6,7 +6,6 @@ import com.account.accountbook.user.repository.dto.MemberProfileResDto;
 import com.account.accountbook.user.repository.dto.QIsExistSocialLoginQueryRes;
 import com.account.accountbook.user.repository.dto.QMemberProfileResDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 

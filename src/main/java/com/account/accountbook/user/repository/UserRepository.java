@@ -1,8 +1,6 @@
 package com.account.accountbook.user.repository;
 
 import com.account.accountbook.domain.Member;
-import com.account.accountbook.user.repository.dto.IsExistSocialLoginQueryRes;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
